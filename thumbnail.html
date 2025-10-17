@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Maker</title>
+    
+    <!-- Google Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Montserrat:wght@400;700&family=Poppins:wght@400;600;800&family=Oswald:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        /* Thumbnail Preview Area */
+        #thumbnail-preview {
+            width: 640px;
+            height: 360px;
+            border: 2px solid #333;
+            position: relative;
+            background-size: cover;
+            background-color: #333;
+        }
+        
+        /* Controls Area */
+        .controls {
+            width: 300px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        /* Editable Text Elements */
+        .editable-text {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            cursor: move;
+            user-select: none;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        button {
+            background: #FF0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        button:hover {
+            background: #CC0000;
+        }
+        
+        .font-preview {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Thumbnail Preview -->
+        <div id="thumbnail-preview">
+            <div class="editable-text" id="main-title" style="top: 50px; left: 50px; font-size: 48px;">
+                YOUR MAIN TITLE
+            </div>
+            <div class="editable-text" id="subtitle" style="top: 120px; left: 50px; font-size: 24px;">
+                Your Subtitle Here
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <h2>Customize Your Thumbnail</h2>
+            
+            <div class="form-group">
+                <label>Main Title</label>
+                <input type="text" id="title-input" value="YOUR MAIN TITLE">
+            </div>
+            
+            <div class="form-group">
+                <label>Subtitle</label>
+                <input type="text" id="subtitle-input" value="Your Subtitle Here">
+            </div>
+            
+            <div class="form-group">
+                <label>Title Font</label>
+                <select id="title-font">
+                    <option value="'Roboto', sans-serif">Roboto (Default)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                </select>
+                <div class="font-preview" id="title-font-preview">Font Preview Text</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Subtitle Font</label>
+                <select id="subtitle-font">
+                    <option value="'Roboto', sans-serif">Roboto (Default)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                </select>
+                <div class="font-preview" id="subtitle-font-preview">Font Preview Text</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Font Size - Main Title</label>
+                <input type="range" id="title-size" min="20" max="80" value="48">
+                <span id="title-size-value">48px</span>
+            </div>
+            
+            <div class="form-group">
+                <label>Font Size - Subtitle</label>
+                <input type="range" id="subtitle-size" min="12" max="40" value="24">
+                <span id="subtitle-size-value">24px</span>
+            </div>
+            
+            <div class="form-group">
+                <label>Title Color</label>
+                <input type="color" id="title-color" value="#ffffff">
+            </div>
+            
+            <div class="form-group">
+                <label>Subtitle Color</label>
+                <input type="color" id="subtitle-color" value="#ffffff">
+            </div>
+            
+            <div class="form-group">
+                <label>Background Image</label>
+                <input type="file" id="bg-image" accept="image/*">
+            </div>
+            
+            <div class="form-group">
+                <label>Template Style</label>
+                <select id="template-style">
+                    <option value="style1">Gaming Style</option>
+                    <option value="style2">Tech Style</option>
+                    <option value="style3">Beauty Style</option>
+                    <option value="style4">Minimal Style</option>
+                </select>
+            </div>
+            
+            <button onclick="downloadThumbnail()">Download Thumbnail</button>
+            <button onclick="resetTemplate()">Reset</button>
+        </div>
+    </div>
+
+    <!-- Include html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Main JavaScript Code -->
+    <script>
+        // Real-time text updating
+        document.getElementById('title-input').addEventListener('input', function(e) {
+            document.getElementById('main-title').textContent = e.target.value;
+        });
+        
+        document.getElementById('subtitle-input').addEventListener('input', function(e) {
+            document.getElementById('subtitle').textContent = e.target.value;
+        });
+        
+        // Font changing for main title
+        document.getElementById('title-font').addEventListener('change', function(e) {
+            document.getElementById('main-title').style.fontFamily = e.target.value;
+            document.getElementById('title-font-preview').style.fontFamily = e.target.value;
+        });
+        
+        // Font changing for subtitle
+        document.getElementById('subtitle-font').addEventListener('change', function(e) {
+            document.getElementById('subtitle').style.fontFamily = e.target.value;
+            document.getElementById('subtitle-font-preview').style.fontFamily = e.target.value;
+        });
+        
+        // Font size for main title
+        document.getElementById('title-size').addEventListener('input', function(e) {
+            const size = e.target.value + 'px';
+            document.getElementById('main-title').style.fontSize = size;
+            document.getElementById('title-size-value').textContent = size;
+        });
+        
+        // Font size for subtitle
+        document.getElementById('subtitle-size').addEventListener('input', function(e) {
+            const size = e.target.value + 'px';
+            document.getElementById('subtitle').style.fontSize = size;
+            document.getElementById('subtitle-size-value').textContent = size;
+        });
+        
+        // Color changing for title
+        document.getElementById('title-color').addEventListener('input', function(e) {
+            document.getElementById('main-title').style.color = e.target.value;
+        });
+        
+        // Color changing for subtitle
+        document.getElementById('subtitle-color').addEventListener('input', function(e) {
+            document.getElementById('subtitle').style.color = e.target.value;
+        });
+        
+        // Background image upload
+        document.getElementById('bg-image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('thumbnail-preview').style.backgroundImage = 
+                        `url(${e.target.result})`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Template styles
+        document.getElementById('template-style').addEventListener('change', function(e) {
+            applyTemplateStyle(e.target.value);
+        });
+        
+        function applyTemplateStyle(style) {
+            const preview = document.getElementById('thumbnail-preview');
+            const mainTitle = document.getElementById('main-title');
+            const subtitle = document.getElementById('subtitle');
+            
+            // Reset all styles first
+            mainTitle.style.fontFamily = "'Roboto', sans-serif";
+            subtitle.style.fontFamily = "'Roboto', sans-serif";
+            mainTitle.style.fontSize = '48px';
+            subtitle.style.fontSize = '24px';
+            document.getElementById('title-size').value = 48;
+            document.getElementById('subtitle-size').value = 24;
+            document.getElementById('title-size-value').textContent = '48px';
+            document.getElementById('subtitle-size-value').textContent = '24px';
+            
+            switch(style) {
+                case 'style1': // Gaming
+                    preview.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4)';
+                    mainTitle.style.fontFamily = "'Oswald', sans-serif";
+                    mainTitle.style.fontSize = '52px';
+                    mainTitle.style.textShadow = '3px 3px 0 #000';
+                    document.getElementById('title-size').value = 52;
+                    document.getElementById('title-size-value').textContent = '52px';
+                    break;
+                    
+                case 'style2': // Tech
+                    preview.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                    mainTitle.style.fontFamily = "'Montserrat', sans-serif";
+                    mainTitle.style.fontSize = '44px';
+                    document.getElementById('title-size').value = 44;
+                    document.getElementById('title-size-value').textContent = '44px';
+                    break;
+                    
+                case 'style3': // Beauty
+                    preview.style.background = 'linear-gradient(45deg, #f093fb, #f5576c)';
+                    mainTitle.style.fontFamily = "'Poppins', sans-serif";
+                    mainTitle.style.fontSize = '48px';
+                    break;
+                    
+                case 'style4': // Minimal
+                    preview.style.background = 'linear-gradient(45deg, #f5f7fa, #c3cfe2)';
+                    mainTitle.style.color = '#333';
+                    subtitle.style.color = '#666';
+                    mainTitle.style.textShadow = 'none';
+                    subtitle.style.textShadow = 'none';
+                    document.getElementById('title-color').value = '#333333';
+                    document.getElementById('subtitle-color').value = '#666666';
+                    break;
+            }
+        }
+        
+        // Make elements draggable
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            element.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Apply drag functionality after page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.editable-text').forEach(makeDraggable);
+        });
+        
+        // Download functionality
+        function downloadThumbnail() {
+            const element = document.getElementById('thumbnail-preview');
+            
+            html2canvas(element).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'youtube-thumbnail.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+        
+        function resetTemplate() {
+            // Reset all inputs
+            document.getElementById('title-input').value = 'YOUR MAIN TITLE';
+            document.getElementById('subtitle-input').value = 'Your Subtitle Here';
+            document.getElementById('title-font').value = "'Roboto', sans-serif";
+            document.getElementById('subtitle-font').value = "'Roboto', sans-serif";
+            document.getElementById('title-size').value = 48;
+            document.getElementById('subtitle-size').value = 24;
+            document.getElementById('title-color').value = '#ffffff';
+            document.getElementById('subtitle-color').value = '#ffffff';
+            
+            // Reset preview
+            document.getElementById('main-title').textContent = 'YOUR MAIN TITLE';
+            document.getElementById('subtitle').textContent = 'Your Subtitle Here';
+            document.getElementById('main-title').style.fontFamily = "'Roboto', sans-serif";
+            document.getElementById('subtitle').style.fontFamily = "'Roboto', sans-serif";
+            document.getElementById('main-title').style.fontSize = '48px';
+            document.getElementById('subtitle').style.fontSize = '24px';
+            document.getElementById('main-title').style.color = '#ffffff';
+            document.getElementById('subtitle').style.color = '#ffffff';
+            document.getElementById('main-title').style.textShadow = '2px 2px 4px rgba(0,0,0,0.8)';
+            document.getElementById('subtitle').style.textShadow = '2px 2px 4px rgba(0,0,0,0.8)';
+            
+            document.getElementById('thumbnail-preview').style.backgroundImage = 'none';
+            document.getElementById('thumbnail-preview').style.background = '#333';
+            
+            // Update display values
+            document.getElementById('title-size-value').textContent = '48px';
+            document.getElementById('subtitle-size-value').textContent = '24px';
+        }
+    </script>
+</body>
+</html>
